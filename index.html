@@ -60,4 +60,6 @@ async def ban(ctx, member : discord.Member, *, reason=None):
     await member.ban(reason=reason)
     await ctx.send(f'***{member} Has Been Banned***  **|** ***{reason}***')
 
+require('http').createServer().listen(3000)
+
 bot.run('NjY4MDUwMDQxMjk0MDI4ODEx.Xkr8Ew.Ndjc7KmZQhsJ5XIDeI6t1LBcacU')
