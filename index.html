@@ -1,0 +1,63 @@
+import discord
+from discord.ext import commands
+from discord.ext import tasks
+from itertools import cycle
+import random
+
+bot = commands.Bot(command_prefix = '.')
+status = cycle(['GTA Online!', 'Report at Ticket System!'])
+
+@bot.event
+async def on_ready():
+    change_status.start()
+    await bot.change_presence(activity=discord.Game('GTA Online!'))
+    print('Bot is ready.')
+
+@tasks.loop(seconds=10)
+async def change_status():
+    await client.change_presence(activity=discord.game(next(status)))
+
+@bot.command()
+@commands.has_permissions(manage_messages=True)
+async def channel(ctx):
+    await ctx.send(f'https://www.youtube.com/channel/UChs0zj_WqSzNRUZYz6h_2ag')
+    await ctx.send(f'**`SUBSCRIBE TO NEON RIGHT NOW IF YOU HAVE NOT ALREADY!!!`**')
+
+@bot.command()
+@commands.has_permissions(manage_messages=True)
+async def twitter(ctx):
+    await ctx.send(f'https://twitter.com/NeonGlitchersHD')
+    await ctx.send(f'**`FOLLOW NEON ON TWITTER IF YOU HAVE NOT ALREADY`**')
+
+@bot.command(aliases=['8ball'])
+async def _8ball(ctx, *, question):
+    responses = ['Totally.',
+             'Yes!',
+             'Probably.',
+             'Not sure to be honest.',
+             'Without a doubt, Yes',
+             'Ummm nope.',
+             'Concentrate and ask me again.',
+             'Affirmative.',
+             'Indeed!',
+             'Absolutely not']
+    await ctx.send(f'{random.choice(responses)}')
+
+@bot.command()
+@commands.has_permissions(manage_messages=True)
+async def clear(ctx, amount=5):
+    await ctx.channel.purge(limit=amount)
+
+@bot.command()
+@commands.has_permissions(kick_members=True)
+async def kick(ctx, member : discord.Member, *, reason=None):
+    await member.kick(reason=reason)
+    await ctx.send(f'***{member} Has Been Kicked***')
+
+@bot.command()
+@commands.has_permissions(ban_members=True)
+async def ban(ctx, member : discord.Member, *, reason=None):
+    await member.ban(reason=reason)
+    await ctx.send(f'***{member} Has Been Banned***  **|** ***{reason}***')
+
+bot.run('NjY4MDUwMDQxMjk0MDI4ODEx.Xkr8Ew.Ndjc7KmZQhsJ5XIDeI6t1LBcacU')
